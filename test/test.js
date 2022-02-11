@@ -4,9 +4,19 @@
 'use strict';
 
 const bedrock = require('bedrock');
+const {getServiceIdentities} = require('bedrock-app-identity');
 require('bedrock-https-agent');
-require('bedrock-test');
+require('bedrock-kms');
+require('bedrock-kms-http');
+require('bedrock-meter');
+require('bedrock-meter-usage-reporter');
+const {handlers} = require('bedrock-meter-http');
+require('bedrock-mongodb');
+require('bedrock-server');
 require('bedrock-service-agent');
+// this is responsible for providing the `ssm-v1` key store
+require('bedrock-ssm-mongodb');
+require('bedrock-test');
 
 const mockData = require('./mocha/mock.data');
 
@@ -29,9 +39,6 @@ bedrock.events.on('bedrock.init', async () => {
   handlers.setUpdateHandler({handler: ({meter} = {}) => ({meter})});
   handlers.setRemoveHandler({handler: ({meter} = {}) => ({meter})});
   handlers.setUseHandler({handler: ({meter} = {}) => ({meter})});
-
-  // FIXME: call `createService`
-  //await createService({});
 });
 
 bedrock.start();
