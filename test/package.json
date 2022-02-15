@@ -9,11 +9,13 @@
     "coverage-report": "nyc report"
   },
   "dependencies": {
+    "@digitalbazaar/edv-client": "^11.3.0",
     "@digitalbazaar/webkms-client": "^9.2.0",
     "bedrock": "^4.4.3",
     "bedrock-app-identity": "^1.2.0",
     "bedrock-did-context": "^2.0.3",
     "bedrock-did-io": "^6.0.2",
+    "bedrock-edv-storage": "^11.5.3",
     "bedrock-express": "^6.2.0",
     "bedrock-https-agent": "^2.0.0",
     "bedrock-jsonld-document-loader": "^1.2.1",
@@ -28,6 +30,7 @@
     "bedrock-security-context": "^5.0.0",
     "bedrock-server": "^3.0.0",
     "bedrock-service-agent": "file:..",
+    "bedrock-service-core": "github:digitalbazaar/bedrock-service-core#initial",
     "bedrock-ssm-mongodb": "^7.0.1",
     "bedrock-test": "^6.0.0",
     "bedrock-validation": "^5.4.1",
