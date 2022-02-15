@@ -63,7 +63,7 @@ describe.only('bedrock-service-agent + bedrock-service-core HTTP API', () => {
       });
     });
     describe('create config', () => {
-      it.only('throws error on missing zcaps', async () => {
+      it('throws error on missing zcaps', async () => {
         let err;
         let result;
         try {
@@ -89,7 +89,7 @@ describe.only('bedrock-service-agent + bedrock-service-core HTTP API', () => {
         assertNoError(err);
         should.exist(result);
         result.should.have.keys([
-          'controller', 'id', 'sequence', 'meterId'
+          'controller', 'id', 'sequence', 'meterId', 'zcaps'
         ]);
         result.sequence.should.equal(0);
         const {id: capabilityAgentId} = capabilityAgent;
@@ -101,14 +101,15 @@ describe.only('bedrock-service-agent + bedrock-service-core HTTP API', () => {
         let err;
         let result;
         try {
-          result = await helpers.createConfig({capabilityAgent, ipAllowList});
+          result = await helpers.createConfig(
+            {capabilityAgent, ipAllowList, zcaps});
         } catch(e) {
           err = e;
         }
         assertNoError(err);
         should.exist(result);
         result.should.have.keys([
-          'controller', 'id', 'ipAllowList', 'sequence', 'meterId'
+          'controller', 'id', 'ipAllowList', 'sequence', 'meterId', 'zcaps'
         ]);
         result.sequence.should.equal(0);
         const {id: capabilityAgentId} = capabilityAgent;
@@ -122,7 +123,8 @@ describe.only('bedrock-service-agent + bedrock-service-core HTTP API', () => {
         let err;
         let result;
         try {
-          result = await helpers.createConfig({capabilityAgent, ipAllowList});
+          result = await helpers.createConfig(
+            {capabilityAgent, ipAllowList, zcaps});
         } catch(e) {
           err = e;
         }
@@ -141,7 +143,8 @@ describe.only('bedrock-service-agent + bedrock-service-core HTTP API', () => {
         let err;
         let result;
         try {
-          result = await helpers.createConfig({capabilityAgent, ipAllowList});
+          result = await helpers.createConfig(
+            {capabilityAgent, ipAllowList, zcaps});
         } catch(e) {
           err = e;
         }
@@ -176,24 +179,8 @@ describe.only('bedrock-service-agent + bedrock-service-core HTTP API', () => {
 
     describe('get config', () => {
       it('gets a config', async () => {
-        const config = await helpers.createConfig({capabilityAgent});
-        let err;
-        let result;
-        try {
-          result = await helpers.getConfig({id: config.id, capabilityAgent});
-        } catch(e) {
-          err = e;
-        }
-        assertNoError(err);
-        should.exist(result);
-        result.should.have.keys(['controller', 'id', 'sequence', 'meterId']);
-        result.id.should.equal(config.id);
-      });
-      it('gets a config with ipAllowList', async () => {
-        const ipAllowList = ['127.0.0.1/32'];
-
         const config = await helpers.createConfig(
-          {capabilityAgent, ipAllowList});
+          {capabilityAgent, zcaps});
         let err;
         let result;
         try {
@@ -204,7 +191,26 @@ describe.only('bedrock-service-agent + bedrock-service-core HTTP API', () => {
         assertNoError(err);
         should.exist(result);
         result.should.have.keys([
-          'controller', 'id', 'ipAllowList', 'sequence', 'meterId'
+          'controller', 'id', 'sequence', 'meterId', 'zcaps'
+        ]);
+        result.id.should.equal(config.id);
+      });
+      it('gets a config with ipAllowList', async () => {
+        const ipAllowList = ['127.0.0.1/32'];
+
+        const config = await helpers.createConfig(
+          {capabilityAgent, ipAllowList, zcaps});
+        let err;
+        let result;
+        try {
+          result = await helpers.getConfig({id: config.id, capabilityAgent});
+        } catch(e) {
+          err = e;
+        }
+        assertNoError(err);
+        should.exist(result);
+        result.should.have.keys([
+          'controller', 'id', 'ipAllowList', 'sequence', 'meterId', 'zcaps'
         ]);
         result.should.have.property('id');
         result.id.should.equal(config.id);
@@ -214,7 +220,7 @@ describe.only('bedrock-service-agent + bedrock-service-core HTTP API', () => {
         const ipAllowList = ['8.8.8.8/32'];
 
         const config = await helpers.createConfig(
-          {capabilityAgent, ipAllowList});
+          {capabilityAgent, ipAllowList, zcaps});
         let err;
         let result;
         try {
@@ -240,7 +246,7 @@ describe.only('bedrock-service-agent + bedrock-service-core HTTP API', () => {
         let existingConfig;
         try {
           existingConfig = result = await helpers.createConfig(
-            {capabilityAgent});
+            {capabilityAgent, zcaps});
         } catch(e) {
           err = e;
         }
@@ -259,7 +265,8 @@ describe.only('bedrock-service-agent + bedrock-service-core HTTP API', () => {
           controller: capabilityAgent2.id,
           id: url,
           meterId: existingConfig.meterId,
-          sequence: 1
+          sequence: 1,
+          zcaps
         };
 
         err = null;
@@ -274,7 +281,7 @@ describe.only('bedrock-service-agent + bedrock-service-core HTTP API', () => {
         should.exist(result.data);
         result.status.should.equal(200);
         result.data.should.have.keys([
-          'id', 'controller', 'sequence', 'meterId'
+          'id', 'controller', 'sequence', 'meterId', 'zcaps'
         ]);
         const expectedConfig = {
           ...existingConfig,
@@ -317,7 +324,8 @@ describe.only('bedrock-service-agent + bedrock-service-core HTTP API', () => {
         let err;
         let result;
         try {
-          result = await helpers.createConfig({capabilityAgent});
+          result = await helpers.createConfig(
+            {capabilityAgent, zcaps});
         } catch(e) {
           err = e;
         }
@@ -335,7 +343,8 @@ describe.only('bedrock-service-agent + bedrock-service-core HTTP API', () => {
           controller: capabilityAgent2.id,
           id: url,
           meterId: result.meterId,
-          sequence: 1
+          sequence: 1,
+          zcaps
         };
 
         err = null;
@@ -365,7 +374,8 @@ describe.only('bedrock-service-agent + bedrock-service-core HTTP API', () => {
         let err;
         let result;
         try {
-          result = await helpers.createConfig({capabilityAgent});
+          result = await helpers.createConfig(
+            {capabilityAgent, zcaps});
         } catch(e) {
           err = e;
         }
@@ -384,7 +394,8 @@ describe.only('bedrock-service-agent + bedrock-service-core HTTP API', () => {
           id: url,
           meterId: result.meterId,
           // the proper sequence would be 1
-          sequence: 10
+          sequence: 10,
+          zcaps
         };
 
         err = null;
@@ -412,7 +423,7 @@ describe.only('bedrock-service-agent + bedrock-service-core HTTP API', () => {
           let existingConfig;
           try {
             existingConfig = result = await helpers.createConfig(
-              {capabilityAgent, ipAllowList});
+              {capabilityAgent, ipAllowList, zcaps});
           } catch(e) {
             err = e;
           }
@@ -432,6 +443,7 @@ describe.only('bedrock-service-agent + bedrock-service-core HTTP API', () => {
             ipAllowList,
             meterId: existingConfig.meterId,
             sequence: 1,
+            zcaps
           };
 
           err = null;
@@ -446,7 +458,7 @@ describe.only('bedrock-service-agent + bedrock-service-core HTTP API', () => {
           should.exist(result.data);
           result.status.should.equal(200);
           result.data.should.have.keys([
-            'id', 'controller', 'sequence', 'meterId', 'ipAllowList'
+            'id', 'controller', 'sequence', 'meterId', 'ipAllowList', 'zcaps'
           ]);
           const expectedConfig = {
             ...existingConfig,
@@ -492,7 +504,7 @@ describe.only('bedrock-service-agent + bedrock-service-core HTTP API', () => {
           let result;
           try {
             result = await helpers.createConfig(
-              {capabilityAgent, ipAllowList});
+              {capabilityAgent, ipAllowList, zcaps});
           } catch(e) {
             err = e;
           }
@@ -512,6 +524,7 @@ describe.only('bedrock-service-agent + bedrock-service-core HTTP API', () => {
             ipAllowList,
             meterId: result.meterId,
             sequence: 1,
+            zcaps
           };
 
           err = null;
@@ -532,7 +545,7 @@ describe.only('bedrock-service-agent + bedrock-service-core HTTP API', () => {
 
     describe('revocations', () => {
       it('throws error with invalid zcap when revoking', async () => {
-        const config = await helpers.createConfig({capabilityAgent});
+        const config = await helpers.createConfig({capabilityAgent, zcaps});
         const zcap = {
           '@context': ['https://w3id.org/zcap/v1'],
           id: 'urn:uuid:895d985c-8e20-11ec-b82f-10bf48838a41',
@@ -555,7 +568,7 @@ describe.only('bedrock-service-agent + bedrock-service-core HTTP API', () => {
           'A validation error occured in the \'Delegated ZCAP\' validator.');
       });
       it('revokes a zcap', async () => {
-        const config = await helpers.createConfig({capabilityAgent});
+        const config = await helpers.createConfig({capabilityAgent, zcaps});
 
         const capabilityAgent2 = await CapabilityAgent.fromSecret(
           {secret: 's2', handle: 'h2'});
@@ -570,7 +583,9 @@ describe.only('bedrock-service-agent + bedrock-service-core HTTP API', () => {
         const zcapClient = helpers.createZcapClient(
           {capabilityAgent: capabilityAgent2});
         const {data} = await zcapClient.read({capability: zcap});
-        data.should.have.keys(['controller', 'id', 'sequence', 'meterId']);
+        data.should.have.keys([
+          'controller', 'id', 'sequence', 'meterId', 'zcaps'
+        ]);
         data.id.should.equal(config.id);
 
         // revoke zcap
