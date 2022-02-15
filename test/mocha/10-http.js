@@ -6,7 +6,6 @@
 const bedrock = require('bedrock');
 const {CapabilityAgent} = require('@digitalbazaar/webkms-client');
 const helpers = require('./helpers');
-const {httpsAgent} = require('bedrock-https-agent');
 const {agent} = require('bedrock-https-agent');
 const {httpClient} = require('@digitalbazaar/http-client');
 const mockData = require('./mock.data');
@@ -38,7 +37,7 @@ describe('HTTP API', () => {
       const serviceAgentUrl =
         `${baseUrl}/service-agents/${encodeURIComponent(serviceType)}`;
       const {data: serviceAgent} = await httpClient.get(serviceAgentUrl, {
-        agent: httpsAgent
+        agent
       });
 
       // delegate edv, hmac, and key agreement key zcaps to service agent
