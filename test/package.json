@@ -9,6 +9,7 @@
     "coverage-report": "nyc report"
   },
   "dependencies": {
+    "@digitalbazaar/ed25519-signature-2020": "^3.0.0",
     "@digitalbazaar/edv-client": "^11.3.0",
     "@digitalbazaar/webkms-client": "^9.2.0",
     "bedrock": "^4.4.3",
