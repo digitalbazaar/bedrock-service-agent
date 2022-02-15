@@ -13,7 +13,7 @@ const mockData = require('./mock.data');
 
 const {baseUrl} = mockData;
 
-describe.only('bedrock-service-agent + bedrock-service-core HTTP API', () => {
+describe('bedrock-service-agent + bedrock-service-core HTTP API', () => {
   describe('service objects', () => {
     let capabilityAgent;
     const zcaps = {};
