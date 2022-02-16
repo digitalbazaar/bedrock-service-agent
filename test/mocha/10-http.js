@@ -49,13 +49,13 @@ describe('HTTP API', () => {
       });
       const {keystoreId} = keystoreAgent;
       zcaps.hmac = await helpers.delegate({
-        capability: `urn:zcap:root:encodeURIComponent(${keystoreId})`,
+        capability: `urn:zcap:root:${encodeURIComponent(keystoreId)}`,
         controller: serviceAgent.id,
         invocationTarget: hmac.id,
         delegator: capabilityAgent
       });
       zcaps.keyAgreementKey = await helpers.delegate({
-        capability: `urn:zcap:root:encodeURIComponent(${keystoreId})`,
+        capability: `urn:zcap:root:${encodeURIComponent(keystoreId)}`,
         controller: serviceAgent.id,
         invocationTarget: keyAgreementKey.kmsId,
         delegator: capabilityAgent
