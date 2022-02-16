@@ -7,6 +7,7 @@ const bedrock = require('bedrock');
 const {didIo} = require('bedrock-did-io');
 const {Ed25519Signature2020} = require('@digitalbazaar/ed25519-signature-2020');
 const {EdvClient} = require('@digitalbazaar/edv-client');
+const {httpClient} = require('@digitalbazaar/http-client');
 const {KeystoreAgent, KmsClient} = require('@digitalbazaar/webkms-client');
 const {getAppIdentity} = require('bedrock-app-identity');
 const {httpsAgent} = require('bedrock-https-agent');
@@ -209,5 +210,10 @@ exports.revokeDelegatedCapability = async ({
 
 async function keyResolver({id}) {
   // support DID-based keys only
-  return didIo.get({url: id});
+  if(id.startsWith('did:')) {
+    return didIo.get({url: id});
+  }
+  // support HTTP-based keys; currently a requirement for WebKMS
+  const {data} = await httpClient.get(id, {agent: httpsAgent});
+  return data;
 }
