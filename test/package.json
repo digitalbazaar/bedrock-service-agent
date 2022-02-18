@@ -34,7 +34,7 @@
     "bedrock-service-core": "github:digitalbazaar/bedrock-service-core#initial",
     "bedrock-ssm-mongodb": "^7.0.1",
     "bedrock-test": "^6.0.0",
-    "bedrock-validation": "^5.4.1",
+    "bedrock-validation": "^5.5.0",
     "bedrock-veres-one-context": "^12.0.0",
     "bedrock-zcap-storage": "^5.0.0",
     "cross-env": "^7.0.3",
