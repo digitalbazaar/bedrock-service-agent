@@ -48,17 +48,19 @@ bedrock.events.on('bedrock.init', async () => {
       config: 1,
       revocation: 1
     },
-    // require these zcaps (by reference ID)
-    zcapReferenceIds: [{
-      referenceId: 'edv',
-      required: true
-    }, {
-      referenceId: 'hmac',
-      required: true
-    }, {
-      referenceId: 'keyAgreementKey',
-      required: true
-    }]
+    validation: {
+      // require these zcaps (by reference ID)
+      zcapReferenceIds: [{
+        referenceId: 'edv',
+        required: true
+      }, {
+        referenceId: 'hmac',
+        required: true
+      }, {
+        referenceId: 'keyAgreementKey',
+        required: true
+      }]
+    }
   });
 });
 
