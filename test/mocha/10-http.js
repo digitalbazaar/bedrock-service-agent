@@ -551,7 +551,8 @@ describe('HTTP API', () => {
           proof: {}
         };
 
-        const url = `${config.id}/revocations/${encodeURIComponent(zcap.id)}`;
+        const url =
+          `${config.id}/zcaps/revocations/${encodeURIComponent(zcap.id)}`;
 
         let err;
         let result;
