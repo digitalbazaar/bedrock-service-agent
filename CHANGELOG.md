@@ -1,6 +1,6 @@
 # bedrock-service-agent ChangeLog
 
-## 2.0.0 - 2022-03-xx
+## 2.0.0 - 2022-03-01
 
 ### Changed
 - **BREAKING**: Use `@digitalbazaar/webkms-client@10` and
