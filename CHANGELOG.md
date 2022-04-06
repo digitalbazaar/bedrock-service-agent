@@ -1,6 +1,6 @@
 # bedrock-service-agent ChangeLog
 
-## 3.0.0 - 2022-04-xx
+## 3.0.0 - 2022-04-05
 
 ### Changed
 - **BREAKING**: Rename package to `@bedrock/service-agent`.
