@@ -9,7 +9,7 @@ import '@bedrock/meter';
 import '@bedrock/meter-usage-reporter';
 import {handlers} from '@bedrock/meter-usage-reporter';
 import '@bedrock/server';
-import {createService} from '@bedrock/service-core'
+import {createService} from '@bedrock/service-core';
 import {initializeServiceAgent} from '@bedrock/service-agent';
 import '@bedrock/kms';
 import '@bedrock/kms-http';
