@@ -3,11 +3,11 @@
  */
 import * as bedrock from '@bedrock/core';
 import {createRequire} from 'module';
+import {didIo} from '@bedrock/did-io';
 import {getAppIdentity} from '@bedrock/app-identity';
 import {httpsAgent} from '@bedrock/https-agent';
 import {mockData} from './mock.data.js';
 const require = createRequire(import.meta.url);
-const {didIo} = require('bedrock-did-io');
 const {Ed25519Signature2020} = require('@digitalbazaar/ed25519-signature-2020');
 const {EdvClient} = require('@digitalbazaar/edv-client');
 const {httpClient} = require('@digitalbazaar/http-client');
