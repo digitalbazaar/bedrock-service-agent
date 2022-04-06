@@ -70,7 +70,7 @@ export async function createConfig({
   const url = `${mockData.baseUrl}/examples`;
   const response = await zcapClient.write({url, json: config});
   return response.data;
-};
+}
 
 export async function getConfig({id, capabilityAgent}) {
   const zcapClient = createZcapClient({capabilityAgent});
@@ -184,7 +184,7 @@ export function createZcapClient({
     delegationSigner: delegationSigner || signer,
     SuiteClass: Ed25519Signature2020
   });
-};
+}
 
 export async function delegate({
   capability, controller, invocationTarget, expires, allowedActions,
