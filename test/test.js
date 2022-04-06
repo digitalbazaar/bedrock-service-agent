@@ -1,24 +1,20 @@
 /*!
  * Copyright (c) 2022 Digital Bazaar, Inc. All rights reserved.
  */
-'use strict';
-
-const bedrock = require('bedrock');
-const {getServiceIdentities} = require('bedrock-app-identity');
-require('bedrock-edv-storage');
-require('bedrock-https-agent');
-require('bedrock-kms');
-require('bedrock-kms-http');
-require('bedrock-meter');
-require('bedrock-meter-usage-reporter');
-const {handlers} = require('bedrock-meter-http');
-require('bedrock-server');
-const {initializeServiceAgent} = require('bedrock-service-agent');
-require('bedrock-ssm-mongodb');
-require('bedrock-test');
-const {createService} = require('bedrock-service-core');
-
-const mockData = require('./mocha/mock.data');
+import * as bedrock from '@bedrock/core';
+import '@bedrock/ssm-mongodb';
+import {getServiceIdentities} from '@bedrock/app-identity';
+import '@bedrock/https-agent';
+import '@bedrock/meter';
+import '@bedrock/meter-usage-reporter';
+import {handlers} from '@bedrock/meter-usage-reporter';
+import '@bedrock/server';
+import {createService} from '@bedrock/service-core'
+import {initializeServiceAgent} from '@bedrock/service-agent';
+import '@bedrock/kms';
+import '@bedrock/kms-http';
+import '@bedrock/edv-storage';
+import {mockData} from './mocha/mock.data.js';
 
 bedrock.events.on('bedrock.init', async () => {
   /* Handlers need to be added before `bedrock.start` is called. These are
@@ -72,4 +68,5 @@ bedrock.events.on('bedrock.ready', async () => {
   await initializeServiceAgent({serviceType: 'example'});
 });
 
+import '@bedrock/test';
 bedrock.start();
