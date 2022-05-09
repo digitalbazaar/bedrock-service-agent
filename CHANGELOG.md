@@ -1,5 +1,10 @@
 # bedrock-service-agent ChangeLog
 
+## 5.1.0 - 2022-05-xx
+
+### Added
+- Add ephemeral agent to optimize invocation of service agent's zcaps.
+
 ## 5.0.0 - 2022-05-05
 
 ### Changed
