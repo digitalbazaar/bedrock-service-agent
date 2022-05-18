@@ -1,5 +1,10 @@
 # bedrock-service-agent ChangeLog
 
+## 5.1.1 - 2022-05-xx
+
+### Fixed
+- Fix cache value rotation code.
+
 ## 5.1.0 - 2022-05-09
 
 ### Added
