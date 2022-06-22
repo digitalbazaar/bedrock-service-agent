@@ -2,13 +2,11 @@
  * Copyright (c) 2019-2022 Digital Bazaar, Inc. All rights reserved.
  */
 import * as helpers from './helpers.js';
-import {createRequire} from 'node:module';
 import {agent} from '@bedrock/https-agent';
 import {documentStores} from '@bedrock/service-agent';
 import {httpClient} from '@digitalbazaar/http-client';
 import {mockData} from './mock.data.js';
-const require = createRequire(import.meta.url);
-const {CapabilityAgent} = require('@digitalbazaar/webkms-client');
+import {CapabilityAgent} from '@digitalbazaar/webkms-client';
 
 const {baseUrl} = mockData;
 

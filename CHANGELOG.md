@@ -1,8 +1,14 @@
 # bedrock-service-agent ChangeLog
 
-## 5.1.2 - 2022-xx-xx
+## 6.0.0 - 2022-xx-xx
 
 ### Changed
+- **BREAKING**: Require Node.js >=16.
+- Update dependencies.
+- **BREAKING**: Update peer dependencies.
+  - `@bedrock/app-identity@4`
+  - `@bedrock/did-io@9`
+- Test on Node.js 18.x.
 - Use `package.json` `files` field.
 - Lint module.
 
