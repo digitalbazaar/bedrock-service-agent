@@ -2,17 +2,15 @@
  * Copyright (c) 2019-2022 Digital Bazaar, Inc. All rights reserved.
  */
 import * as bedrock from '@bedrock/core';
-import {createRequire} from 'node:module';
 import {didIo} from '@bedrock/did-io';
 import {getAppIdentity} from '@bedrock/app-identity';
 import {httpsAgent} from '@bedrock/https-agent';
 import {mockData} from './mock.data.js';
-const require = createRequire(import.meta.url);
-const {Ed25519Signature2020} = require('@digitalbazaar/ed25519-signature-2020');
-const {EdvClient} = require('@digitalbazaar/edv-client');
-const {httpClient} = require('@digitalbazaar/http-client');
-const {KeystoreAgent, KmsClient} = require('@digitalbazaar/webkms-client');
-const {ZcapClient} = require('@digitalbazaar/ezcap');
+import {Ed25519Signature2020} from '@digitalbazaar/ed25519-signature-2020';
+import {EdvClient} from '@digitalbazaar/edv-client';
+import {httpClient} from '@digitalbazaar/http-client';
+import {KeystoreAgent, KmsClient} from '@digitalbazaar/webkms-client';
+import {ZcapClient} from '@digitalbazaar/ezcap';
 
 const edvBaseUrl = `${mockData.baseUrl}/edvs`;
 const kmsBaseUrl = `${mockData.baseUrl}/kms`;

@@ -3,12 +3,10 @@
  */
 import * as bedrock from '@bedrock/core';
 import * as helpers from './helpers.js';
-import {createRequire} from 'node:module';
 import {agent} from '@bedrock/https-agent';
 import {httpClient} from '@digitalbazaar/http-client';
 import {mockData} from './mock.data.js';
-const require = createRequire(import.meta.url);
-const {CapabilityAgent} = require('@digitalbazaar/webkms-client');
+import {CapabilityAgent} from '@digitalbazaar/webkms-client';
 
 const {baseUrl} = mockData;
 

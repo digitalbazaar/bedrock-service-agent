@@ -27,26 +27,26 @@
   },
   "homepage": "https://github.com/digitalbazaar/bedrock-service-agent",
   "dependencies": {
-    "@digitalbazaar/ed25519-signature-2020": "^3.0.0",
-    "@digitalbazaar/edv-client": "^14.0.0",
-    "@digitalbazaar/ezcap": "^2.0.6",
-    "@digitalbazaar/http-client": "^3.0.1",
-    "@digitalbazaar/lru-memoize": "^2.1.0",
-    "@digitalbazaar/webkms-client": "^10.0.0",
+    "@digitalbazaar/ed25519-signature-2020": "^4.0.1",
+    "@digitalbazaar/edv-client": "^15.0.0",
+    "@digitalbazaar/ezcap": "^3.0.1",
+    "@digitalbazaar/http-client": "^3.2.0",
+    "@digitalbazaar/lru-memoize": "^3.0.0",
+    "@digitalbazaar/webkms-client": "^11.0.0",
     "assert-plus": "^1.0.0",
     "cors": "^2.8.5"
   },
   "peerDependencies": {
-    "@bedrock/app-identity": "^3.0.0",
-    "@bedrock/core": "^6.0.0",
+    "@bedrock/app-identity": "^4.0.0",
+    "@bedrock/core": "^6.0.1",
     "@bedrock/did-context": "^4.0.0",
-    "@bedrock/did-io": "^8.0.0",
+    "@bedrock/did-io": "^9.0.1",
     "@bedrock/express": "^8.0.0",
     "@bedrock/https-agent": "^4.0.0",
     "@bedrock/jsonld-document-loader": "^3.0.0",
     "@bedrock/mongodb": "^10.0.0",
     "@bedrock/security-context": "^7.0.0",
-    "@bedrock/veres-one-context": "^14.0.0"
+    "@bedrock/veres-one-context": "^14.0.1"
   },
   "directories": {
     "lib": "./lib"
@@ -55,10 +55,11 @@
     "eslint": "^8.18.0",
     "eslint-config-digitalbazaar": "^3.0.0",
     "eslint-plugin-jsdoc": "^39.3.3",
+    "eslint-plugin-unicorn": "^42.0.0",
     "jsdoc": "^3.6.10",
     "jsdoc-to-markdown": "^7.1.1"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=16"
   }
 }
