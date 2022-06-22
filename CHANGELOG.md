@@ -1,5 +1,10 @@
 # bedrock-service-agent ChangeLog
 
+## 5.1.2 - 2022-xx-xx
+
+### Changed
+- Use `package.json` `files` field.
+
 ## 5.1.1 - 2022-05-18
 
 ### Fixed
