@@ -4,9 +4,9 @@
 import * as bedrock from '@bedrock/core';
 import * as helpers from './helpers.js';
 import {agent} from '@bedrock/https-agent';
+import {CapabilityAgent} from '@digitalbazaar/webkms-client';
 import {httpClient} from '@digitalbazaar/http-client';
 import {mockData} from './mock.data.js';
-import {CapabilityAgent} from '@digitalbazaar/webkms-client';
 
 const {baseUrl} = mockData;
 

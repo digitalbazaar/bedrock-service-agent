@@ -2,15 +2,16 @@
  * Copyright (c) 2019-2022 Digital Bazaar, Inc. All rights reserved.
  */
 import * as bedrock from '@bedrock/core';
+import {KeystoreAgent, KmsClient} from '@digitalbazaar/webkms-client';
 import {didIo} from '@bedrock/did-io';
-import {getAppIdentity} from '@bedrock/app-identity';
-import {httpsAgent} from '@bedrock/https-agent';
-import {mockData} from './mock.data.js';
 import {Ed25519Signature2020} from '@digitalbazaar/ed25519-signature-2020';
 import {EdvClient} from '@digitalbazaar/edv-client';
+import {getAppIdentity} from '@bedrock/app-identity';
 import {httpClient} from '@digitalbazaar/http-client';
-import {KeystoreAgent, KmsClient} from '@digitalbazaar/webkms-client';
+import {httpsAgent} from '@bedrock/https-agent';
 import {ZcapClient} from '@digitalbazaar/ezcap';
+
+import {mockData} from './mock.data.js';
 
 const edvBaseUrl = `${mockData.baseUrl}/edvs`;
 const kmsBaseUrl = `${mockData.baseUrl}/kms`;
