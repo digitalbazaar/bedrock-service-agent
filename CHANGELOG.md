@@ -1,6 +1,6 @@
 # bedrock-service-agent ChangeLog
 
-## 6.1.0 - 2022-08-xx
+## 6.1.0 - 2022-08-02
 
 ### Changed
 - Use `@digitalbazaar/webkms-client@12`. Should be no
