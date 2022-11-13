@@ -1,6 +1,6 @@
 # bedrock-service-agent ChangeLog
 
-## 6.2.0 - 2022-11-dd
+## 6.2.0 - 2022-11-13
 
 ### Changed
 - Change dev mode default meter to work with `@bedrock/meter@5`.
