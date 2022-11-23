@@ -29,7 +29,7 @@
     "@bedrock/security-context": "^7.0.0",
     "@bedrock/server": "^5.0.0",
     "@bedrock/service-agent": "file:..",
-    "@bedrock/service-core": "^6.0.0",
+    "@bedrock/service-core": "github:digitalbazaar/bedrock-service-core#use-mongo-driver-4-rc",
     "@bedrock/ssm-mongodb": "^10.0.0",
     "@bedrock/test": "^8.0.5",
     "@bedrock/validation": "^7.0.0",
