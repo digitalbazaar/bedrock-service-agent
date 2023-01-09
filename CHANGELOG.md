@@ -1,5 +1,14 @@
 # bedrock-service-agent ChangeLog
 
+## 7.0.0 -
+
+### Changed
+- **BREAKING**: Use `@bedrock/mongodb: ^11`.
+- **BREAKING**: Use updated Node MongoDB Driver 4 results API.
+
+### Removed
+- Remove deprecated MongoDB index `background`.
+
 ## 6.2.0 - 2022-11-13
 
 ### Changed
