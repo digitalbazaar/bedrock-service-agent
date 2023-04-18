@@ -1,6 +1,6 @@
 {
   "name": "@bedrock/service-agent",
-  "version": "6.2.1-0",
+  "version": "7.0.0",
   "type": "module",
   "description": "Bedrock Service Agent",
   "main": "./lib/index.js",
