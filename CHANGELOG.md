@@ -1,5 +1,14 @@
 # bedrock-service-agent ChangeLog
 
+## 7.0.0 - 2023-TBD
+
+### Changed
+- **BREAKING**: Update peerdep`@bedrock/did-io` to v10 that uses
+  `@digitalbazaar/did-method-key@v5.0` where the `DidKeyDriver` no longer takes
+  a `verificationSuite` param in the constructor and the driver instance now
+  supports multiple multibase-multikey headers and multibase-multikey
+  deserializer function.
+
 ## 6.2.0 - 2022-11-13
 
 ### Changed
