@@ -1,6 +1,6 @@
 # bedrock-service-agent ChangeLog
 
-## 7.0.0 - 2023-04-dd
+## 7.0.0 - 2023-04-18
 
 ### Changed
 - **BREAKING**: Update peerdep `@bedrock/did-io` to v10 that uses
