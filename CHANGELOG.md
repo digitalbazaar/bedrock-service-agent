@@ -1,5 +1,11 @@
 # bedrock-service-agent ChangeLog
 
+## 7.0.1 - 2023-08-dd
+
+### Fixed
+- Fix unhandled promise rejection that could occur during ephemeral agent
+  rotation.
+
 ## 7.0.0 - 2023-04-18
 
 ### Changed
