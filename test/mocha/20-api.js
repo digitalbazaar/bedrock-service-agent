@@ -2,9 +2,9 @@
  * Copyright (c) 2019-2023 Digital Bazaar, Inc. All rights reserved.
  */
 import * as helpers from './helpers.js';
+import {documentStores, serviceAgents} from '@bedrock/service-agent';
 import {agent} from '@bedrock/https-agent';
 import {CapabilityAgent} from '@digitalbazaar/webkms-client';
-import {documentStores, serviceAgents} from '@bedrock/service-agent';
 import {httpClient} from '@digitalbazaar/http-client';
 import {mockData} from './mock.data.js';
 
