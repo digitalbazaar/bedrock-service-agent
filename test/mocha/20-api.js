@@ -167,7 +167,7 @@ describe('API', () => {
       const {serviceAgent} = await serviceAgents.get({serviceType});
 
       // forcibly clear the ephemeral agent cache and set new short TTL
-      const ttl = 500;
+      const ttl = 250;
       serviceAgents._resetEphemeralAgentCache({ttl});
 
       // get ephemeral agent
@@ -190,8 +190,8 @@ describe('API', () => {
       } = await serviceAgents.getEphemeralAgent({config, serviceAgent});
       agent3.id.should.equal(agent1.id);
 
-      // wait another half TTL to ensure the agent has been rotated
-      await new Promise(r => setTimeout(r, ttl / 2));
+      // wait a TTL period to ensure the agent has been rotated
+      await new Promise(r => setTimeout(r, ttl));
       const {
         capabilityAgent: agent4, _next: _next4
       } = await serviceAgents.getEphemeralAgent(
