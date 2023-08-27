@@ -70,6 +70,37 @@ describe('API', () => {
         should.exist(documentStore);
         documentStore.should.be.an('object');
       });
+
+      it('document store rotation', async () => {
+        // forcibly clear the document store cache and set new short TTL
+        const ttl = 500;
+        documentStores._resetDocumentStoreCache({ttl});
+
+        // get initial doc store
+        const docStore1 = await documentStores.get(
+          {config, serviceType: 'example'});
+
+        // get again; should be same cached value
+        await new Promise(r => setTimeout(r, 100));
+        const docStore2 = await documentStores.get(
+          {config, serviceType: 'example'});
+        docStore2.should.equal(docStore1);
+
+        // get again; should be a new rotated doc store
+        await new Promise(r => setTimeout(r, 400));
+        const docStore3 = await documentStores.get(
+          {config, serviceType: 'example'});
+        docStore3.should.not.equal(docStore1);
+
+        // get again; should be a brand new doc store
+        await new Promise(r => setTimeout(r, 600));
+        const docStore4 = await documentStores.get(
+          {config, serviceType: 'example'});
+        docStore4.should.not.equal(docStore3);
+
+        // reset cache again
+        documentStores._resetDocumentStoreCache();
+      });
     });
   });
 
