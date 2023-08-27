@@ -140,8 +140,12 @@ describe('API', () => {
       serviceAgents._resetEphemeralAgentCache({ttl});
 
       // get ephemeral agent
-      const {capabilityAgent: agent1} = await serviceAgents.getEphemeralAgent(
-        {config, serviceAgent});
+      const {
+        capabilityAgent: agent1, expires
+      } = await serviceAgents.getEphemeralAgent({config, serviceAgent});
+      should.exist(expires);
+      expires.should.be.a('Date');
+      expires.should.be.greaterThan(new Date());
 
       // get ephemeral agent again and ensure it's the same one
       const {capabilityAgent: agent2} = await serviceAgents.getEphemeralAgent(
