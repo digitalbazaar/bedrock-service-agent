@@ -1,5 +1,11 @@
 # bedrock-service-agent ChangeLog
 
+## 8.0.0 - 2023-09-xx
+
+### Changed
+- **BREAKING**: Drop support for Node.js < 18.
+- Use `@digitalbazaar/edv-client@16`. This version requires Node.js 18+.
+
 ## 7.0.1 - 2023-08-27
 
 ### Fixed
