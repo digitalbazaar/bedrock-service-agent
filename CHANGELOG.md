@@ -4,6 +4,8 @@
 
 ### Changed
 - **BREAKING**: Drop support for Node.js < 18.
+- **BREAKING**: Change the return value of the `documentStores.get` API. The
+  API now returns `{documentStore, expires}`.
 - Use `@digitalbazaar/edv-client@16`. This version requires Node.js 18+.
 - Use `@digitalbazaar/http-client@4`. This version requires Node.js 18+.
 - Use `@digitalbazaar/webkms-client@13`. This version requires Node.js 18+.

@@ -65,10 +65,12 @@ describe('API', () => {
 
     describe('get', () => {
       it('passes', async () => {
-        const documentStore = await documentStores.get(
+        const {documentStore, expires} = await documentStores.get(
           {config, serviceType: 'example'});
         should.exist(documentStore);
         documentStore.should.be.an('object');
+        should.exist(expires);
+        expires.should.be.a('date');
       });
 
       it('document store rotation', async () => {
@@ -77,24 +79,24 @@ describe('API', () => {
         documentStores._resetDocumentStoreCache({ttl});
 
         // get initial doc store
-        const docStore1 = await documentStores.get(
+        const {documentStore: docStore1} = await documentStores.get(
           {config, serviceType: 'example'});
 
         // get again; should be same cached value
         await new Promise(r => setTimeout(r, 100));
-        const docStore2 = await documentStores.get(
+        const {documentStore: docStore2} = await documentStores.get(
           {config, serviceType: 'example'});
         docStore2.should.equal(docStore1);
 
         // get again; should be a new rotated doc store
         await new Promise(r => setTimeout(r, 400));
-        const docStore3 = await documentStores.get(
+        const {documentStore: docStore3} = await documentStores.get(
           {config, serviceType: 'example'});
         docStore3.should.not.equal(docStore1);
 
         // get again; should be a brand new doc store
         await new Promise(r => setTimeout(r, 600));
-        const docStore4 = await documentStores.get(
+        const {documentStore: docStore4} = await documentStores.get(
           {config, serviceType: 'example'});
         docStore4.should.not.equal(docStore3);
 
