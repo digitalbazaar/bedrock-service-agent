@@ -7,6 +7,7 @@
 - Use `@digitalbazaar/edv-client@16`. This version requires Node.js 18+.
 - Use `@digitalbazaar/http-client@4`. This version requires Node.js 18+.
 - Use `@digitalbazaar/webkms-client@13`. This version requires Node.js 18+.
+- Use `@digitalbazaar/ed25519-signature-2020@5`.
 
 ## 7.0.1 - 2023-08-27
 
