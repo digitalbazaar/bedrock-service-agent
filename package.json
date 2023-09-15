@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/digitalbazaar/bedrock-service-agent",
   "dependencies": {
-    "@digitalbazaar/ed25519-signature-2020": "^4.0.1",
+    "@digitalbazaar/ed25519-signature-2020": "^5.2.0",
     "@digitalbazaar/edv-client": "^16.0.0",
     "@digitalbazaar/ezcap": "^3.0.1",
     "@digitalbazaar/http-client": "^4.0.0",
