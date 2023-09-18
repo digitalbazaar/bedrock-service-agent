@@ -1,6 +1,6 @@
 # bedrock-service-agent ChangeLog
 
-## 8.0.0 - 2023-09-xx
+## 8.0.0 - 2023-09-18
 
 ### Changed
 - **BREAKING**: Drop support for Node.js < 18.
