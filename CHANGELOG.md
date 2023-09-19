@@ -9,6 +9,9 @@
   - Use `@bedrock/security-context@8`.
   - Use `@bedrock/veres-one-context@15`.
 
+### Changed
+- Update test deps.
+
 ## 8.0.0 - 2023-09-18
 
 ### Changed
