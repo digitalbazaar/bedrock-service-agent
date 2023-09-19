@@ -1,6 +1,6 @@
 # bedrock-service-agent ChangeLog
 
-## 8.0.1 - 2023-09-xx
+## 8.0.1 - 2023-09-19
 
 ### Fixed
 - Fix peer deps:
