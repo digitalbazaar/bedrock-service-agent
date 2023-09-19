@@ -1,5 +1,14 @@
 # bedrock-service-agent ChangeLog
 
+## 8.0.1 - 2023-09-xx
+
+### Fixed
+- Fix peer deps:
+  - Use `@bedrock/did-context@5`.
+  - Use `@bedrock/jsonld-document-loader@4`.
+  - Use `@bedrock/security-context@8`.
+  - Use `@bedrock/veres-one-context@15`.
+
 ## 8.0.0 - 2023-09-18
 
 ### Changed
