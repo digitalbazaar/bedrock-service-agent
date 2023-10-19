@@ -1,5 +1,11 @@
 # bedrock-service-agent ChangeLog
 
+## 8.0.2 - 2023-10-dd
+
+### Fixed
+- Fix unhandled promise rejection that could arise from getting
+  uncached records.
+
 ## 8.0.1 - 2023-09-19
 
 ### Fixed
