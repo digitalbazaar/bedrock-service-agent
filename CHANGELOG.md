@@ -7,7 +7,7 @@
 
 ### Changed
 - Use `@digitalbazaar/webkms-client@14`. This version requires
-  bedrock-kms-http 19+.
+  bedrock-kms-http 19+ on the connected WebKMS system.
 
 ## 8.0.2 - 2023-10-19
 
