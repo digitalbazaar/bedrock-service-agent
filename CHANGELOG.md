@@ -1,5 +1,14 @@
 # bedrock-service-agent ChangeLog
 
+## 8.1.0 - 2024-07-xx
+
+### Added
+- Add retry logic for failed service agent generation.
+
+### Changed
+- Use `@digitalbazaar/webkms-client@14`. This version requires
+  bedrock-kms-http 19+.
+
 ## 8.0.2 - 2023-10-19
 
 ### Fixed
