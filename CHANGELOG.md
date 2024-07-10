@@ -1,6 +1,6 @@
 # bedrock-service-agent ChangeLog
 
-## 8.1.0 - 2024-07-xx
+## 8.1.0 - 2024-07-10
 
 ### Added
 - Add retry logic for failed service agent generation.
