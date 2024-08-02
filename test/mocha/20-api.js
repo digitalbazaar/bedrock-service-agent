@@ -1,5 +1,5 @@
 /*!
- * Copyright (c) 2019-2023 Digital Bazaar, Inc. All rights reserved.
+ * Copyright (c) 2019-2024 Digital Bazaar, Inc. All rights reserved.
  */
 import * as helpers from './helpers.js';
 import {documentStores, serviceAgents} from '@bedrock/service-agent';
@@ -199,18 +199,22 @@ describe('API', () => {
       } = await serviceAgents.getEphemeralAgent(
         {config, serviceAgent});
       agent4.id.should.not.equal(agent1.id);
+      agent4.id.should.not.equal(agent3.id);
       // rotation from 3rd agent should be the 4th agent
       const next3Rotation = await _next3;
       should.exist(next3Rotation);
       next3Rotation.capabilityAgent.id.should.equal(agent4.id);
 
-      // wait for full TTL to expire the record so the rotation isn't used
-      await new Promise(r => setTimeout(r, ttl));
+      // wait 1 more than full TTL to ensure the record associated with agent 4
+      // has expired and therefore `_next4` rotation won't happen
+      await new Promise(r => setTimeout(r, ttl + 1));
       const {
         capabilityAgent: agent5
       } = await serviceAgents.getEphemeralAgent(
         {config, serviceAgent});
-      agent4.id.should.not.equal(agent1.id);
+      agent5.id.should.not.equal(agent1.id);
+      // agent4 should have been replaced by now since the TTL expired
+      agent5.id.should.not.equal(agent4.id);
       // rotation from the 4th agent should NOT be the 5th agent because the
       // rotation should have been dropped due to 4th expiring from the cache
       const next4Rotation = await _next4;
