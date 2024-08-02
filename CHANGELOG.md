@@ -1,5 +1,11 @@
 # bedrock-service-agent ChangeLog
 
+## 9.0.2 - 2024-08-dd
+
+### Fixed
+- Use `...cache.peek(key)` in cache record rotation management code to
+  avoid extending record TTL when not actually accessing cache for use.
+
 ## 9.0.1 - 2024-08-01
 
 ### Changed
