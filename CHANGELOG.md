@@ -1,6 +1,6 @@
 # bedrock-service-agent ChangeLog
 
-## 9.0.2 - 2024-08-dd
+## 9.0.2 - 2024-08-02
 
 ### Fixed
 - Use `...cache.peek(key)` in cache record rotation management code to
