@@ -1,6 +1,6 @@
 # bedrock-service-agent ChangeLog
 
-## 9.0.1 - 2024-08-xx
+## 9.0.1 - 2024-08-01
 
 ### Changed
 - Update test dependencies.
