@@ -1,5 +1,14 @@
 # bedrock-service-agent ChangeLog
 
+## 9.0.0 - 2024-08-xx
+
+### Changed
+- **BREAKING**: Update peer dependencies:
+  - `@bedrock/jsonld-document-loader@5.1.0`
+  - `@bedrock/did-context@6`
+  - `@bedrock/security-context@9`
+  - `@bedrock/veres-one-context@16`
+
 ## 8.1.0 - 2024-07-10
 
 ### Added
