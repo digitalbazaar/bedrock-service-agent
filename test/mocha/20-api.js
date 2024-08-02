@@ -205,9 +205,9 @@ describe('API', () => {
       should.exist(next3Rotation);
       next3Rotation.capabilityAgent.id.should.equal(agent4.id);
 
-      // wait 1 more than full TTL to ensure the record associated with agent 4
+      // wait 2x full TTL to ensure the record associated with agent 4
       // has expired and therefore `_next4` rotation won't happen
-      await new Promise(r => setTimeout(r, ttl + 1));
+      await new Promise(r => setTimeout(r, ttl * 2));
       const {
         capabilityAgent: agent5
       } = await serviceAgents.getEphemeralAgent(
