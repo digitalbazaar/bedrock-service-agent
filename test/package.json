@@ -30,7 +30,7 @@
     "@bedrock/security-context": "^9.0.0",
     "@bedrock/server": "^5.1.0",
     "@bedrock/service-agent": "file:..",
-    "@bedrock/service-core": "^9.4.0",
+    "@bedrock/service-core": "^10.0.0",
     "@bedrock/ssm-mongodb": "^11.2.1",
     "@bedrock/test": "^8.2.0",
     "@bedrock/validation": "^7.1.0",
