@@ -9,6 +9,7 @@
   - `@bedrock/security-context@9`
   - `@bedrock/veres-one-context@16`
 - Update minor dependencies.
+- Update test dependencies.
 
 ## 8.1.0 - 2024-07-10
 
