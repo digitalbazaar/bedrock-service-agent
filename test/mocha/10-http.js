@@ -1,5 +1,5 @@
 /*!
- * Copyright (c) 2019-2023 Digital Bazaar, Inc. All rights reserved.
+ * Copyright (c) 2019-2025 Digital Bazaar, Inc. All rights reserved.
  */
 import * as bedrock from '@bedrock/core';
 import * as helpers from './helpers.js';
@@ -170,7 +170,7 @@ describe('HTTP API', () => {
         should.not.exist(result);
         err.data.type.should.equal('ValidationError');
         err.data.message.should.equal(
-          'A validation error occured in the \'createConfigBody\' validator.');
+          'A validation error occurred in the \'createConfigBody\' validator.');
       });
     });
 
@@ -563,7 +563,7 @@ describe('HTTP API', () => {
         should.not.exist(result);
         err.data.type.should.equal('ValidationError');
         err.data.message.should.equal(
-          'A validation error occured in the \'Delegated ZCAP\' validator.');
+          'A validation error occurred in the \'Delegated ZCAP\' validator.');
       });
       it('revokes a zcap', async () => {
         const config = await helpers.createConfig({capabilityAgent, zcaps});
