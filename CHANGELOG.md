@@ -1,6 +1,6 @@
 # bedrock-service-agent ChangeLog
 
-## 9.0.1 - 2025-mm-dd
+## 9.0.3 - 2025-03-04
 
 ### Fixed
 - Return passed `record` instead of resulting record from mongodb calls to
