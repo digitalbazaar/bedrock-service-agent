@@ -1,5 +1,20 @@
 # bedrock-service-agent ChangeLog
 
+## 10.0.0 - 2025-03-xx
+
+### Changed
+- Update dependencies.
+  - `@digitalbazaar/webkms-client@14.1.2`.
+- Update peer dependencies.
+  - `@bedrock/core@6.3.0`.
+  - `@bedrock/did-io@10.4.0`.
+  - `@bedrock/jsonld-document-loader@5.2.0`.
+  - **BREAKING**: `@bedrock/mongodb@11`.
+    - Use MongoDB driver 6.x and update error names and details.
+    - See changelog for details.
+- Update dev dependencies.
+- Update test dependencies.
+
 ## 9.0.3 - 2025-03-04
 
 ### Fixed
