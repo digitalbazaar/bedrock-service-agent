@@ -1,6 +1,6 @@
 # bedrock-service-agent ChangeLog
 
-## 10.1.0 - 2025-05-dd
+## 10.1.0 - 2025-05-22
 
 ### Changed
 - Use `@digitalbazaar/lru-memoize@4`. Existing cache defaults and options
