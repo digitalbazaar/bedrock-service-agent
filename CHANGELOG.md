@@ -1,5 +1,11 @@
 # bedrock-service-agent ChangeLog
 
+## 10.2.0 - 2025-07-dd
+
+### Added
+- Add `addDocumentRoutes()` helper function to register service object
+  (aka instance) HTTP routes for a particular document type.
+
 ## 10.1.0 - 2025-05-22
 
 ### Changed
