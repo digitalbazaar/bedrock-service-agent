@@ -1,6 +1,6 @@
 # bedrock-service-agent ChangeLog
 
-## 10.2.0 - 2025-07-dd
+## 10.2.0 - 2025-07-26
 
 ### Added
 - Add `addDocumentRoutes()` helper function to register service object
