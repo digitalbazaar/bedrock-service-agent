@@ -5,6 +5,7 @@ import * as bedrock from '@bedrock/core';
 import * as helpers from './helpers.js';
 import {agent} from '@bedrock/https-agent';
 import {CapabilityAgent} from '@digitalbazaar/webkms-client';
+import {documentStores} from '@bedrock/service-agent';
 import {httpClient} from '@digitalbazaar/http-client';
 import {mockData} from './mock.data.js';
 
@@ -604,5 +605,218 @@ describe('HTTP API', () => {
         err.data.type.should.equal('NotAllowedError');
       });
     }); // end revocations
+
+    describe('document storage', async () => {
+      it('inserts a document', async () => {
+        const config = await helpers.createConfig({capabilityAgent, zcaps});
+        const rootZcap = `urn:zcap:root:${encodeURIComponent(config.id)}`;
+
+        const id = `urn:uuid:${crypto.randomUUID()}`;
+        const data = {foo: 'bar'};
+        const client = helpers.createZcapClient({capabilityAgent});
+        const url = `${config.id}/example-docs`;
+
+        let err;
+        let response;
+        try {
+          response = await client.write({
+            url, json: {id, data},
+            capability: rootZcap
+          });
+        } catch(e) {
+          err = e;
+        }
+        assertNoError(err);
+        should.exist(response);
+        should.exist(response.data);
+        response.data.should.deep.equal({
+          id,
+          data,
+          sequence: 0
+        });
+        const expectedLocation = `${url}/${encodeURIComponent(id)}`;
+        response.headers.get('location').should.equal(expectedLocation);
+      });
+      it('fails to insert a duplicate document', async () => {
+        const config = await helpers.createConfig({capabilityAgent, zcaps});
+        const rootZcap = `urn:zcap:root:${encodeURIComponent(config.id)}`;
+
+        // insert doc
+        const id = `urn:uuid:${crypto.randomUUID()}`;
+        const data = {foo: 'bar'};
+        const client = helpers.createZcapClient({capabilityAgent});
+        const url = `${config.id}/example-docs`;
+
+        {
+          let err;
+          let response;
+          try {
+            response = await client.write({
+              url, json: {id, data},
+              capability: rootZcap
+            });
+          } catch(e) {
+            err = e;
+          }
+          assertNoError(err);
+          should.exist(response);
+          should.exist(response.data);
+          response.data.should.deep.equal({
+            id,
+            data,
+            sequence: 0
+          });
+          const expectedLocation = `${url}/${encodeURIComponent(id)}`;
+          response.headers.get('location').should.equal(expectedLocation);
+        }
+
+        // should fail to insert doc with the same ID
+        {
+          let err;
+          let response;
+          try {
+            response = await client.write({
+              url, json: {id, data},
+              capability: rootZcap
+            });
+          } catch(e) {
+            err = e;
+          }
+          should.exist(err);
+          should.not.exist(response);
+          err.data.name.should.equal('DuplicateError');
+        }
+      });
+      it('updates a document', async () => {
+        const config = await helpers.createConfig({capabilityAgent, zcaps});
+        const rootZcap = `urn:zcap:root:${encodeURIComponent(config.id)}`;
+
+        // insert example doc
+        const id = `urn:uuid:${crypto.randomUUID()}`;
+        const data = {foo: 'bar'};
+        const client = helpers.createZcapClient({capabilityAgent});
+        let url = `${config.id}/example-docs`;
+        await client.write({
+          url, json: {id, data},
+          capability: rootZcap
+        });
+
+        // update `data`
+        data.baz = 'thing';
+        url = `${url}/${encodeURIComponent(id)}`;
+        let err;
+        let response;
+        try {
+          response = await client.write({
+            url, json: {id, data, sequence: 1},
+            capability: rootZcap
+          });
+        } catch(e) {
+          err = e;
+        }
+        assertNoError(err);
+        should.exist(response);
+        should.exist(response.data);
+        response.data.should.deep.equal({
+          id,
+          data,
+          sequence: 1
+        });
+      });
+      it('gets a document', async () => {
+        const config = await helpers.createConfig({capabilityAgent, zcaps});
+        const rootZcap = `urn:zcap:root:${encodeURIComponent(config.id)}`;
+
+        // insert example document
+        const id = `urn:uuid:${crypto.randomUUID()}`;
+        const data = {foo: 'bar'};
+        const client = helpers.createZcapClient({capabilityAgent});
+        let url = `${config.id}/example-docs`;
+        await client.write({
+          url, json: {id, data},
+          capability: rootZcap
+        });
+
+        url = `${url}/${encodeURIComponent(id)}`;
+        let err;
+        let response;
+        try {
+          response = await client.read({
+            url, capability: rootZcap
+          });
+        } catch(e) {
+          err = e;
+        }
+        assertNoError(err);
+        should.exist(response);
+        should.exist(response.data);
+        response.data.should.deep.equal({
+          id,
+          data,
+          sequence: 0
+        });
+      });
+      it('fails to get a document with wrong meta type', async () => {
+        const config = await helpers.createConfig({capabilityAgent, zcaps});
+        const rootZcap = `urn:zcap:root:${encodeURIComponent(config.id)}`;
+
+        // insert document
+        const id = `urn:uuid:${crypto.randomUUID()}`;
+        const data = {foo: 'bar'};
+        const client = helpers.createZcapClient({capabilityAgent});
+        let url = `${config.id}/example-docs`;
+        await client.write({
+          url, json: {id, data},
+          capability: rootZcap
+        });
+        // update URL to doc URL
+        url = `${url}/${encodeURIComponent(id)}`;
+
+        // get document successfully
+        {
+          let err;
+          let response;
+          try {
+            response = await client.read({
+              url, capability: rootZcap
+            });
+          } catch(e) {
+            err = e;
+          }
+          assertNoError(err);
+          should.exist(response);
+          should.exist(response.data);
+          response.data.should.deep.equal({
+            id,
+            data,
+            sequence: 0
+          });
+        }
+
+        // now erroneously update context to new meta type
+        const {documentStore} = await documentStores.get({
+          config, serviceType: 'example'
+        });
+        await documentStore.upsert({
+          content: {id, data},
+          meta: {type: 'different'}
+        });
+
+        {
+          let err;
+          let response;
+          try {
+            response = await client.read({
+              url, capability: rootZcap
+            });
+          } catch(e) {
+            err = e;
+          }
+          should.exist(err);
+          should.not.exist(response);
+          err.data.name.should.equal('NotFoundError');
+        }
+      });
+    });
   });
 });

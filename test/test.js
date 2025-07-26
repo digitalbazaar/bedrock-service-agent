@@ -1,11 +1,13 @@
 /*!
- * Copyright (c) 2022 Digital Bazaar, Inc. All rights reserved.
+ * Copyright (c) 2022-2025 Digital Bazaar, Inc. All rights reserved.
  */
 import * as bedrock from '@bedrock/core';
+import {
+  addDocumentRoutes, initializeServiceAgent
+} from '@bedrock/service-agent';
 import {createService} from '@bedrock/service-core';
 import {getServiceIdentities} from '@bedrock/app-identity';
 import {handlers} from '@bedrock/meter-http';
-import {initializeServiceAgent} from '@bedrock/service-agent';
 import '@bedrock/edv-storage';
 import '@bedrock/https-agent';
 import '@bedrock/kms';
@@ -38,7 +40,7 @@ bedrock.events.on('bedrock.init', async () => {
   handlers.setUseHandler({handler: ({meter} = {}) => ({meter})});
 
   // create `example` service
-  /*const service =*/await createService({
+  const service = await createService({
     serviceType: 'example',
     routePrefix: '/examples',
     storageCost: {
@@ -58,6 +60,41 @@ bedrock.events.on('bedrock.init', async () => {
         required: true
       }]
     }
+  });
+
+  bedrock.events.on('bedrock-express.configure.routes', async app => {
+    const createBodySchema = {
+      type: 'object',
+      required: ['id', 'data'],
+      additionalProperties: false,
+      properties: {
+        id: {type: 'string'},
+        data: {type: 'object'}
+      }
+    };
+    const updateBodySchema = {
+      ...createBodySchema,
+      required: ['id', 'sequence', 'data'],
+      properties: {
+        ...createBodySchema.properties,
+        sequence: {
+          type: 'integer',
+          minimum: 0,
+          maximum: Number.MAX_SAFE_INTEGER - 1
+        }
+      }
+    };
+
+    addDocumentRoutes({
+      app, service,
+      type: 'ExampleDocumentType',
+      typeName: 'Example Document',
+      contentProperty: 'data',
+      basePath: '/example-docs',
+      pathParam: 'exampleId',
+      createBodySchema,
+      updateBodySchema
+    });
   });
 });
 
