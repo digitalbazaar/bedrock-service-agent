@@ -1,5 +1,13 @@
 # bedrock-service-agent ChangeLog
 
+## 10.3.0 - 2025-mm-dd
+
+### Added
+- Add `refreshZcaps({serviceType, config, signal})` utility function that can
+  be called from a service's `refreshHandler`. This function will attempt to
+  refresh any zcaps in a service object `config`, provided that the `config`
+  has the required refresh zcap (`config.zcaps.refresh`).
+
 ## 10.2.0 - 2025-07-26
 
 ### Added
