@@ -437,6 +437,92 @@ describe('Refresh zcaps', () => {
     record.meta.refresh.enabled.should.equal(true);
     record.meta.refresh.after.should.equal(expectedAfter);
   });
+  it('should not refresh zcaps with "refresh=false" policy', async () => {
+    const secret = crypto.randomUUID();
+    const handle = 'test';
+    const capabilityAgent = await CapabilityAgent.fromSecret({secret, handle});
+
+    mockData.zcapRefreshPolicyRouteListeners.set(capabilityAgent.id, async ({
+      res
+    }) => {
+      res.json({
+        refresh: false
+      });
+    });
+    mockData.zcapRefreshRouteListeners.set(capabilityAgent.id, async () => {
+      // should not happen because no zcap refreshes should even be attempted
+      throw new BedrockError('Zcap refresh not allowed.', {
+        name: 'NotAllowedError',
+        details: {
+          httpStatusCode: 403,
+          public: true
+        }
+      });
+    });
+
+    // function to be called when refreshing the created config
+    const expectedAfter = Date.now() + 987654321;
+    const configId = `${mockData.baseUrl}/refreshables/${crypto.randomUUID()}`;
+    const configRefreshPromise = new Promise((resolve, reject) =>
+      mockData.refreshHandlerListeners.set(configId, async ({
+        record, signal
+      }) => {
+        try {
+          const result = await refreshZcaps({
+            serviceType: 'refreshing', config: record.config, signal
+          });
+          result.refresh.enabled.should.equal(false);
+          result.refresh.after.should.equal(0);
+
+          // update record
+          await mockData.refreshingService.configStorage.update({
+            config: {...record.config, sequence: record.config.sequence + 1},
+            refresh: {
+              enabled: result.refresh.enabled,
+              after: result.refresh.after
+            }
+          });
+          resolve(mockData.refreshingService.configStorage.get({id: configId}));
+        } catch(e) {
+          reject(e);
+        }
+      }));
+
+    let err;
+    let result;
+    try {
+      const {id: meterId} = await helpers.createMeter({
+        capabilityAgent, serviceType: 'refreshing'
+      });
+      const zcaps = await _createZcaps({
+        capabilityAgent, serviceType: 'refreshing'
+      });
+      result = await helpers.createConfig({
+        capabilityAgent, meterId, servicePath: '/refreshables',
+        options: {
+          id: configId,
+          zcaps
+        }
+      });
+    } catch(e) {
+      err = e;
+    }
+    assertNoError(err);
+    should.exist(result);
+    result.should.have.keys([
+      'controller', 'id', 'sequence', 'meterId', 'zcaps'
+    ]);
+    result.sequence.should.equal(0);
+    const {id: capabilityAgentId} = capabilityAgent;
+    result.controller.should.equal(capabilityAgentId);
+
+    // wait for refresh promise to resolve
+    const record = await configRefreshPromise;
+    record.config.id.should.equal(configId);
+    record.config.sequence.should.equal(1);
+    record.meta.refresh.enabled.should.equal(false);
+    record.meta.refresh.after.should.equal(0);
+  });
   it('should not refresh zcaps with too large TTL', async () => {
     const secret = crypto.randomUUID();
     const handle = 'test';
