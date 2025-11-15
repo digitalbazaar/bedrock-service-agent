@@ -1,11 +1,12 @@
 /*!
- * Copyright (c) 2022 Digital Bazaar, Inc. All rights reserved.
+ * Copyright (c) 2022-2025 Digital Bazaar, Inc. All rights reserved.
  */
 import {config} from '@bedrock/core';
 import {fileURLToPath} from 'node:url';
 import path from 'node:path';
 import '@bedrock/app-identity';
 import '@bedrock/https-agent';
+import '@bedrock/service-core';
 import '@bedrock/service-agent';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -32,6 +33,16 @@ config['app-identity'].seeds.services.example = {
   seedMultibase: 'z1AgvAGfbairK3AV6GqbeF8gSpYZXftQsGb5DTjptgawNyn',
   serviceType: 'example'
 };
+
+// create application identity for service with refresh
+config['app-identity'].seeds.services.refreshing = {
+  id: 'did:key:z6MkqhgbwggDuoHeru2GSDmZN6V2oPs1vHZoXhEVJnKpDzEz',
+  seedMultibase: 'z1AnLvp9wWsUe9YkGoQpvLikA1GjtuduvQGwgptu5va2mKS',
+  serviceType: 'refreshing'
+};
+
+// set config storage refresh interval short for testing purposes
+config['service-core'].configStorage.refresh.interval = 100;
 
 // use local KMS for testing
 config['service-agent'].kms.baseUrl = 'https://localhost:18443/kms';

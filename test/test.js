@@ -5,7 +5,7 @@ import * as bedrock from '@bedrock/core';
 import {
   addDocumentRoutes, initializeServiceAgent
 } from '@bedrock/service-agent';
-import {createService} from '@bedrock/service-core';
+import {createService, schemas} from '@bedrock/service-core';
 import {getServiceIdentities} from '@bedrock/app-identity';
 import {handlers} from '@bedrock/meter-http';
 import '@bedrock/edv-storage';
@@ -59,6 +59,27 @@ bedrock.events.on('bedrock.init', async () => {
         referenceId: 'keyAgreementKey',
         required: true
       }]
+    }
+  });
+
+  // create `refreshing` service with a refresh handler
+  const allowClientIdCreateConfigBody = structuredClone(
+    schemas.createConfigBody);
+  allowClientIdCreateConfigBody.properties.id =
+    schemas.updateConfigBody.properties.id;
+  mockData.refreshingService = await createService({
+    serviceType: 'refreshing',
+    routePrefix: '/refreshables',
+    storageCost: {
+      config: 1,
+      revocation: 1
+    },
+    validation: {
+      createConfigBody: allowClientIdCreateConfigBody
+    },
+    async refreshHandler({record}) {
+      const fn = mockData.refreshHandlerListeners.get(record.config.id);
+      await fn?.({record});
     }
   });
 
