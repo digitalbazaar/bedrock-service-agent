@@ -7,6 +7,8 @@ export const mockData = {};
 
 // functions used in tests
 mockData.refreshHandlerListeners = new Map();
+mockData.zcapRefreshRouteListeners = new Map();
+mockData.zcapRefreshPolicyRouteListeners = new Map();
 
 // mock product IDs and reverse lookup for service products
 mockData.productIdMap = new Map([

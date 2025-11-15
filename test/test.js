@@ -6,6 +6,7 @@ import {
   addDocumentRoutes, initializeServiceAgent
 } from '@bedrock/service-agent';
 import {createService, schemas} from '@bedrock/service-core';
+import {asyncHandler} from '@bedrock/express';
 import {getServiceIdentities} from '@bedrock/app-identity';
 import {handlers} from '@bedrock/meter-http';
 import '@bedrock/edv-storage';
@@ -18,6 +19,8 @@ import '@bedrock/server';
 import '@bedrock/ssm-mongodb';
 
 import {mockData} from './mocha/mock.data.js';
+
+const {util: {BedrockError}} = bedrock;
 
 bedrock.events.on('bedrock.init', async () => {
   /* Handlers need to be added before `bedrock.start` is called. These are
@@ -75,11 +78,24 @@ bedrock.events.on('bedrock.init', async () => {
       revocation: 1
     },
     validation: {
-      createConfigBody: allowClientIdCreateConfigBody
+      createConfigBody: allowClientIdCreateConfigBody,
+      zcapReferenceIds: [{
+        referenceId: 'edv',
+        required: false
+      }, {
+        referenceId: 'hmac',
+        required: false
+      }, {
+        referenceId: 'keyAgreementKey',
+        required: false
+      }, {
+        referenceId: 'refresh',
+        required: false
+      }]
     },
-    async refreshHandler({record}) {
+    async refreshHandler({record, signal}) {
       const fn = mockData.refreshHandlerListeners.get(record.config.id);
-      await fn?.({record});
+      await fn?.({record, signal});
     }
   });
 
@@ -116,6 +132,40 @@ bedrock.events.on('bedrock.init', async () => {
       createBodySchema,
       updateBodySchema
     });
+
+    // zcap refresh routes
+    const refreshRoute = '/profiles/:profileId/zcaps/refresh';
+
+    app.post(refreshRoute, asyncHandler(async (req, res) => {
+      const {profileId} = req.params;
+      const fn = mockData.zcapRefreshRouteListeners.get(profileId);
+      if(fn) {
+        await fn({req, res});
+      } else {
+        throw new BedrockError('Zcap refresh not found.', {
+          name: 'NotAllowedError',
+          details: {
+            httpStatusCode: 403,
+            public: true
+          }
+        });
+      }
+    }));
+    app.get(`${refreshRoute}/policy`, asyncHandler(async (req, res) => {
+      const {profileId} = req.params;
+      const fn = mockData.zcapRefreshPolicyRouteListeners.get(profileId);
+      if(fn) {
+        await fn({req, res});
+      } else {
+        throw new BedrockError('Zcap refresh policy not found.', {
+          name: 'NotFoundError',
+          details: {
+            httpStatusCode: 404,
+            public: true
+          }
+        });
+      }
+    }));
   });
 });
 
@@ -123,8 +173,9 @@ bedrock.events.on('bedrock.init', async () => {
 // however, since the KMS system used is local, we have to wait for it to
 // be ready; so only do this on `bedrock.ready`
 bedrock.events.on('bedrock.ready', async () => {
-  // initialize service agent
+  // initialize service agents
   await initializeServiceAgent({serviceType: 'example'});
+  await initializeServiceAgent({serviceType: 'refreshing'});
 });
 
 import '@bedrock/test';
