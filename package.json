@@ -47,7 +47,7 @@
     "@bedrock/jsonld-document-loader": "^5.2.0",
     "@bedrock/mongodb": "^11.0.0",
     "@bedrock/security-context": "^9.0.0",
-    "@bedrock/service-core": "^11.0.0",
+    "@bedrock/service-core": "^11.4.0",
     "@bedrock/validation": "^7.1.1",
     "@bedrock/veres-one-context": "^16.0.0"
   },
