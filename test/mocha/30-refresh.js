@@ -343,9 +343,11 @@ describe('Refresh zcaps', () => {
       res
     }) => {
       res.json({
-        refresh: {
-          // no constraints
-          constraints: {}
+        policy: {
+          refresh: {
+            // no constraints
+            constraints: {}
+          }
         }
       });
     });
@@ -446,7 +448,9 @@ describe('Refresh zcaps', () => {
       res
     }) => {
       res.json({
-        refresh: false
+        policy: {
+          refresh: false
+        }
       });
     });
     mockData.zcapRefreshRouteListeners.set(capabilityAgent.id, async () => {
@@ -461,7 +465,6 @@ describe('Refresh zcaps', () => {
     });
 
     // function to be called when refreshing the created config
-    const expectedAfter = Date.now() + 987654321;
     const configId = `${mockData.baseUrl}/refreshables/${crypto.randomUUID()}`;
     const configRefreshPromise = new Promise((resolve, reject) =>
       mockData.refreshHandlerListeners.set(configId, async ({
@@ -532,10 +535,12 @@ describe('Refresh zcaps', () => {
       res
     }) => {
       res.json({
-        refresh: {
-          constraints: {
-            // require fully expired zcaps
-            maxTtlBeforeRefresh: 0
+        policy: {
+          refresh: {
+            constraints: {
+              // require fully expired zcaps
+              maxTtlBeforeRefresh: 0
+            }
           }
         }
       });
@@ -636,9 +641,11 @@ describe('Refresh zcaps', () => {
       res
     }) => {
       res.json({
-        refresh: {
-          // no constraints
-          constraints: {}
+        policy: {
+          refresh: {
+            // no constraints
+            constraints: {}
+          }
         }
       });
     });
@@ -743,9 +750,11 @@ describe('Refresh zcaps', () => {
       res
     }) => {
       res.json({
-        refresh: {
-          // no constraints
-          constraints: {}
+        policy: {
+          refresh: {
+            // no constraints
+            constraints: {}
+          }
         }
       });
     });
