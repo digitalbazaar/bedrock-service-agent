@@ -922,11 +922,14 @@ async function _createZcaps({capabilityAgent, serviceType}) {
   });
 
   // delegate refresh zcap to service agent
+  const profilePath =
+    `${baseUrl}/profiles/${encodeURIComponent(capabilityAgent.id)}`;
   const refreshUrl =
-    `${baseUrl}/profiles/${encodeURIComponent(capabilityAgent.id)}/zcaps` +
+    `${profilePath}/zcaps` +
     `/policies/${encodeURIComponent(serviceAgent.id)}/refresh`;
   zcaps.refresh = await helpers.delegate({
     controller: serviceAgent.id,
+    capability: `urn:zcap:root:${encodeURIComponent(profilePath)}`,
     delegator: capabilityAgent,
     invocationTarget: refreshUrl
   });
