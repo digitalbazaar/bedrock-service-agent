@@ -1,6 +1,6 @@
 # bedrock-service-agent ChangeLog
 
-## 10.3.1 - 2025-11-dd
+## 10.3.1 - 2025-11-16
 
 ### Fixed
 - Ensure `refresh.after` is an absolute (not a relative) timestamp.
