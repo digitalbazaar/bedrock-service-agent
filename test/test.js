@@ -134,7 +134,8 @@ bedrock.events.on('bedrock.init', async () => {
     });
 
     // zcap refresh routes
-    const refreshRoute = '/profiles/:profileId/zcaps/refresh';
+    const refreshRoute =
+      '/profiles/:profileId/zcaps/policies/:delegateId/refresh';
 
     app.post(refreshRoute, asyncHandler(async (req, res) => {
       const {profileId} = req.params;
