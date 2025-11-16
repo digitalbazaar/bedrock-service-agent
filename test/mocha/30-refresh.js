@@ -392,7 +392,7 @@ describe('Refresh zcaps', () => {
 
           // update record
           await mockData.refreshingService.configStorage.update({
-            config: {...record.config, sequence: record.config.sequence + 1},
+            config: {...result.config, sequence: result.config.sequence + 1},
             refresh: {
               enabled: true,
               after: expectedAfter
@@ -406,11 +406,12 @@ describe('Refresh zcaps', () => {
 
     let err;
     let result;
+    let zcaps;
     try {
       const {id: meterId} = await helpers.createMeter({
         capabilityAgent, serviceType: 'refreshing'
       });
-      const zcaps = await _createZcaps({
+      zcaps = await _createZcaps({
         capabilityAgent, serviceType: 'refreshing'
       });
       result = await helpers.createConfig({
@@ -438,6 +439,11 @@ describe('Refresh zcaps', () => {
     record.config.sequence.should.equal(1);
     record.meta.refresh.enabled.should.equal(true);
     record.meta.refresh.after.should.equal(expectedAfter);
+
+    // ensure zcaps did not change
+    for(const [key, value] of Object.entries(zcaps)) {
+      record.config.zcaps[key].should.deep.equal(value);
+    }
   });
   it('should not refresh zcaps with "refresh=false" policy', async () => {
     const secret = crypto.randomUUID();
@@ -476,6 +482,7 @@ describe('Refresh zcaps', () => {
           });
           result.refresh.enabled.should.equal(false);
           result.refresh.after.should.equal(0);
+          should.not.exist(result.config);
 
           // update record
           await mockData.refreshingService.configStorage.update({
@@ -585,7 +592,7 @@ describe('Refresh zcaps', () => {
 
           // update record
           await mockData.refreshingService.configStorage.update({
-            config: {...record.config, sequence: record.config.sequence + 1},
+            config: {...result.config, sequence: result.config.sequence + 1},
             refresh: {
               enabled: true,
               after: expectedAfter
@@ -599,11 +606,12 @@ describe('Refresh zcaps', () => {
 
     let err;
     let result;
+    let zcaps;
     try {
       const {id: meterId} = await helpers.createMeter({
         capabilityAgent, serviceType: 'refreshing'
       });
-      const zcaps = await _createZcaps({
+      zcaps = await _createZcaps({
         capabilityAgent, serviceType: 'refreshing'
       });
       result = await helpers.createConfig({
@@ -631,6 +639,11 @@ describe('Refresh zcaps', () => {
     record.config.sequence.should.equal(1);
     record.meta.refresh.enabled.should.equal(true);
     record.meta.refresh.after.should.equal(expectedAfter);
+
+    // ensure zcaps did not change
+    for(const [key, value] of Object.entries(zcaps)) {
+      record.config.zcaps[key].should.deep.equal(value);
+    }
   });
   it('should not refresh zcaps with new invalid ones', async () => {
     const secret = crypto.randomUUID();
@@ -694,7 +707,7 @@ describe('Refresh zcaps', () => {
 
           // update record
           await mockData.refreshingService.configStorage.update({
-            config: {...record.config, sequence: record.config.sequence + 1},
+            config: {...result.config, sequence: result.config.sequence + 1},
             refresh: {
               enabled: true,
               after: expectedAfter
@@ -708,11 +721,12 @@ describe('Refresh zcaps', () => {
 
     let err;
     let result;
+    let zcaps;
     try {
       const {id: meterId} = await helpers.createMeter({
         capabilityAgent, serviceType: 'refreshing'
       });
-      const zcaps = await _createZcaps({
+      zcaps = await _createZcaps({
         capabilityAgent, serviceType: 'refreshing'
       });
       result = await helpers.createConfig({
@@ -740,6 +754,11 @@ describe('Refresh zcaps', () => {
     record.config.sequence.should.equal(1);
     record.meta.refresh.enabled.should.equal(true);
     record.meta.refresh.after.should.equal(expectedAfter);
+
+    // ensure zcaps did not change
+    for(const [key, value] of Object.entries(zcaps)) {
+      record.config.zcaps[key].should.deep.equal(value);
+    }
   });
   it('should refresh zcaps in a config', async () => {
     const secret = crypto.randomUUID();
@@ -804,7 +823,7 @@ describe('Refresh zcaps', () => {
 
           // update record
           await mockData.refreshingService.configStorage.update({
-            config: {...record.config, sequence: record.config.sequence + 1},
+            config: {...result.config, sequence: result.config.sequence + 1},
             refresh: {
               enabled: result.refresh.enabled,
               after: result.refresh.after
@@ -818,11 +837,12 @@ describe('Refresh zcaps', () => {
 
     let err;
     let result;
+    let zcaps;
     try {
       const {id: meterId} = await helpers.createMeter({
         capabilityAgent, serviceType: 'refreshing'
       });
-      const zcaps = await _createZcaps({
+      zcaps = await _createZcaps({
         capabilityAgent, serviceType: 'refreshing'
       });
       result = await helpers.createConfig({
@@ -850,6 +870,11 @@ describe('Refresh zcaps', () => {
     record.config.sequence.should.equal(1);
     record.meta.refresh.enabled.should.equal(true);
     record.meta.refresh.after.should.equal(expectedAfter);
+
+    // ensure zcaps changed
+    for(const [key, value] of Object.entries(zcaps)) {
+      record.config.zcaps[key].should.not.deep.equal(value);
+    }
   });
 });
 
