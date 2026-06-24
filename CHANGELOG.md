@@ -16,6 +16,12 @@
   approach optimizes for helping to correct mistakes (more common) rather than
   for explicit prohibition use cases.
 
+### Fixed
+- Ensure default refresh `after` time considered non-refreshed zcaps, not just
+  refreshed zcaps. This fixes a bug where refresh processing could set a
+  refresh `after` time beyond when a zcap needed a refresh, simply because the
+  zcap did not need a zcap at the time of processing.
+
 ## 10.3.1 - 2025-11-16
 
 ### Fixed
