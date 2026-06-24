@@ -61,6 +61,7 @@ describe('Refresh zcaps', () => {
     const capabilityAgent = await CapabilityAgent.fromSecret({secret, handle});
 
     // function to be called when refreshing the created config
+    // set very specific `expectedAfter` to look for below
     const expectedAfter = Date.now() + 987654321;
     const configId = `${mockData.baseUrl}/refreshables/${crypto.randomUUID()}`;
     const configRefreshPromise = new Promise((resolve, reject) =>
@@ -79,7 +80,9 @@ describe('Refresh zcaps', () => {
           await mockData.refreshingService.configStorage.update({
             config: {...record.config, sequence: record.config.sequence + 1},
             refresh: {
-              enabled: false,
+              enabled: result.refresh.enabled,
+              // in a normal handler, it would get set to zero, test that it
+              // gets set to whatever value the handler says
               after: expectedAfter
             }
           });
@@ -124,6 +127,7 @@ describe('Refresh zcaps', () => {
     const capabilityAgent = await CapabilityAgent.fromSecret({secret, handle});
 
     // function to be called when refreshing the created config
+    // set very specific `expectedAfter` to look for below
     const expectedAfter = Date.now() + 987654321;
     const configId = `${mockData.baseUrl}/refreshables/${crypto.randomUUID()}`;
     const configRefreshPromise = new Promise((resolve, reject) =>
@@ -142,7 +146,9 @@ describe('Refresh zcaps', () => {
           await mockData.refreshingService.configStorage.update({
             config: {...record.config, sequence: record.config.sequence + 1},
             refresh: {
-              enabled: false,
+              enabled: result.refresh.enabled,
+              // in a normal handler, it would get set to zero, test that it
+              // gets set to whatever value the handler says
               after: expectedAfter
             }
           });
@@ -191,7 +197,8 @@ describe('Refresh zcaps', () => {
     const capabilityAgent = await CapabilityAgent.fromSecret({secret, handle});
 
     // function to be called when refreshing the created config
-    const expectedAfter = Date.now() + 987654321;
+    let expectedAfter;
+    const twoDaysLater = Date.now() + 1000 * 60 * 60 * 24 * 2;
     const configId = `${mockData.baseUrl}/refreshables/${crypto.randomUUID()}`;
     const configRefreshPromise = new Promise((resolve, reject) =>
       mockData.refreshHandlerListeners.set(configId, async ({
@@ -202,15 +209,19 @@ describe('Refresh zcaps', () => {
             serviceType: 'refreshing', config: record.config, signal
           });
           result.refresh.enabled.should.equal(true);
+          result.refresh.after.should.be.lt(twoDaysLater);
           result.error.name.should.equal('NotFoundError');
           should.not.exist(result.config);
+
+          // set expected after
+          expectedAfter = result.refresh.after;
 
           // update record
           await mockData.refreshingService.configStorage.update({
             config: {...record.config, sequence: record.config.sequence + 1},
             refresh: {
-              enabled: true,
-              after: expectedAfter
+              enabled: result.refresh.enabled,
+              after: result.refresh.after
             }
           });
           resolve(mockData.refreshingService.configStorage.get({id: configId}));
@@ -271,7 +282,8 @@ describe('Refresh zcaps', () => {
       });
 
     // function to be called when refreshing the created config
-    const expectedAfter = Date.now() + 987654321;
+    let expectedAfter;
+    const twoDaysLater = Date.now() + 1000 * 60 * 60 * 24 * 2;
     const configId = `${mockData.baseUrl}/refreshables/${crypto.randomUUID()}`;
     const configRefreshPromise = new Promise((resolve, reject) =>
       mockData.refreshHandlerListeners.set(configId, async ({
@@ -282,15 +294,19 @@ describe('Refresh zcaps', () => {
             serviceType: 'refreshing', config: record.config, signal
           });
           result.refresh.enabled.should.equal(true);
+          result.refresh.after.should.be.lt(twoDaysLater);
           result.error.name.should.equal('NotAllowedError');
           should.not.exist(result.config);
+
+          // set expected after
+          expectedAfter = result.refresh.after;
 
           // update record
           await mockData.refreshingService.configStorage.update({
             config: {...record.config, sequence: record.config.sequence + 1},
             refresh: {
-              enabled: true,
-              after: expectedAfter
+              enabled: result.refresh.enabled,
+              after: result.refresh.after
             }
           });
           resolve(mockData.refreshingService.configStorage.get({id: configId}));
@@ -362,7 +378,8 @@ describe('Refresh zcaps', () => {
     });
 
     // function to be called when refreshing the created config
-    const expectedAfter = Date.now() + 987654321;
+    let expectedAfter;
+    const twoDaysLater = Date.now() + 1000 * 60 * 60 * 24 * 2;
     const configId = `${mockData.baseUrl}/refreshables/${crypto.randomUUID()}`;
     const configRefreshPromise = new Promise((resolve, reject) =>
       mockData.refreshHandlerListeners.set(configId, async ({
@@ -379,6 +396,7 @@ describe('Refresh zcaps', () => {
           result.refresh.enabled.should.equal(true);
           should.exist(result.config);
           result.refresh.after.should.be.gte(later);
+          result.refresh.after.should.be.lt(twoDaysLater);
           should.exist(result.results);
           result.results.length.should.equal(4);
           result.results[0].refreshed.should.equal(false);
@@ -389,6 +407,9 @@ describe('Refresh zcaps', () => {
           result.results[1].error.name.should.equal('NotAllowedError');
           result.results[2].error.name.should.equal('NotAllowedError');
           result.results[3].error.name.should.equal('NotAllowedError');
+
+          // set expected after
+          expectedAfter = result.refresh.after;
 
           // update record
           await mockData.refreshingService.configStorage.update({
@@ -564,7 +585,7 @@ describe('Refresh zcaps', () => {
     });
 
     // function to be called when refreshing the created config
-    const expectedAfter = Date.now() + 987654321;
+    let expectedAfter;
     const configId = `${mockData.baseUrl}/refreshables/${crypto.randomUUID()}`;
     const configRefreshPromise = new Promise((resolve, reject) =>
       mockData.refreshHandlerListeners.set(configId, async ({
@@ -573,29 +594,35 @@ describe('Refresh zcaps', () => {
         try {
           const now = Date.now();
           const later = now + 1000 * 60 * 5;
+          const tooLate = now + 1000 * 60 * 30;
           const result = await refreshZcaps({
             serviceType: 'refreshing', config: record.config, signal
           });
           result.refresh.enabled.should.equal(true);
           should.exist(result.config);
           result.refresh.after.should.be.gte(later);
+          // `result.refresh.after` should be within 30 minutes
+          result.refresh.after.should.be.lte(tooLate);
           should.exist(result.results);
           result.results.length.should.equal(4);
-          result.results[3].refreshed.should.equal(false);
-          result.results[3].refreshed.should.equal(false);
-          result.results[3].refreshed.should.equal(false);
+          result.results[0].refreshed.should.equal(false);
+          result.results[1].refreshed.should.equal(false);
+          result.results[2].refreshed.should.equal(false);
           result.results[3].refreshed.should.equal(false);
           should.not.exist(result.results[0].error);
-          should.not.exist(result.results[0].error);
-          should.not.exist(result.results[0].error);
-          should.not.exist(result.results[0].error);
+          should.not.exist(result.results[1].error);
+          should.not.exist(result.results[2].error);
+          should.not.exist(result.results[3].error);
+
+          // set expected after
+          expectedAfter = result.refresh.after;
 
           // update record
           await mockData.refreshingService.configStorage.update({
             config: {...result.config, sequence: result.config.sequence + 1},
             refresh: {
-              enabled: true,
-              after: expectedAfter
+              enabled: result.refresh.enabled,
+              after: result.refresh.after
             }
           });
           resolve(mockData.refreshingService.configStorage.get({id: configId}));
@@ -679,7 +706,7 @@ describe('Refresh zcaps', () => {
     });
 
     // function to be called when refreshing the created config
-    const expectedAfter = Date.now() + 987654321;
+    let expectedAfter;
     const configId = `${mockData.baseUrl}/refreshables/${crypto.randomUUID()}`;
     const configRefreshPromise = new Promise((resolve, reject) =>
       mockData.refreshHandlerListeners.set(configId, async ({
@@ -705,12 +732,15 @@ describe('Refresh zcaps', () => {
           result.results[2].error.name.should.equal('ValidationError');
           result.results[3].error.name.should.equal('ValidationError');
 
+          // set expected after
+          expectedAfter = result.refresh.after;
+
           // update record
           await mockData.refreshingService.configStorage.update({
             config: {...result.config, sequence: result.config.sequence + 1},
             refresh: {
-              enabled: true,
-              after: expectedAfter
+              enabled: result.refresh.enabled,
+              after: result.refresh.after
             }
           });
           resolve(mockData.refreshingService.configStorage.get({id: configId}));
