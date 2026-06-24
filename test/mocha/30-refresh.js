@@ -1,5 +1,5 @@
 /*!
- * Copyright (c) 2025 Digital Bazaar, Inc. All rights reserved.
+ * Copyright (c) 2025-2026 Digital Bazaar, Inc.
  */
 import * as bedrock from '@bedrock/core';
 import * as helpers from './helpers.js';
@@ -201,7 +201,7 @@ describe('Refresh zcaps', () => {
           const result = await refreshZcaps({
             serviceType: 'refreshing', config: record.config, signal
           });
-          result.refresh.enabled.should.equal(false);
+          result.refresh.enabled.should.equal(true);
           result.error.name.should.equal('NotFoundError');
           should.not.exist(result.config);
 
@@ -281,7 +281,7 @@ describe('Refresh zcaps', () => {
           const result = await refreshZcaps({
             serviceType: 'refreshing', config: record.config, signal
           });
-          result.refresh.enabled.should.equal(false);
+          result.refresh.enabled.should.equal(true);
           result.error.name.should.equal('NotAllowedError');
           should.not.exist(result.config);
 

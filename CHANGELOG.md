@@ -1,5 +1,21 @@
 # bedrock-service-agent ChangeLog
 
+## 10.4.0 - 2026-mm-dd
+
+### Changed
+- Always schedule another zcap refresh check if a zcap refresh policy is
+  explicitly not found (404) or if access to read it is explicitly denied (403)
+  to improve resiliency and to enable zcaps to eventually auto-refresh if, for
+  example, a policy was only added after the instance was configured. Policies
+  that can be retrieved that intentionally prohibit refresh with `refresh=false`
+  will still cause refresh attempts to stop until the configuration is manually
+  updated again. This does mean that policies that intentionally prohibit zcap
+  refresh that cannot be retrieved due to an expired refresh zcap (resulting in
+  a 403) will NOT cause the refresh job to stop asking for refresh, which is
+  less polite behavior, but triggers more logging about the problem. This
+  approach optimizes for helping to correct mistakes (more common) rather than
+  for explicit prohibition use cases.
+
 ## 10.3.1 - 2025-11-16
 
 ### Fixed
