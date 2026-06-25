@@ -1,6 +1,6 @@
 # bedrock-service-agent ChangeLog
 
-## 10.4.0 - 2026-mm-dd
+## 10.4.0 - 2026-06-24
 
 ### Changed
 - Always schedule another zcap refresh check if a zcap refresh policy is
